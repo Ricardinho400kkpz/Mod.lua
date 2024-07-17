@@ -1,0 +1,140 @@
+---Abaixo estar a lib da nossa UI
+
+local Lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Ricardinho400kkpz/Mod.lua/main/source.lua/"))()
+
+local UI = Lib:Create{
+    Theme = "Dark", -- or any other theme
+   Size = UDim2.new(0, 555, 0, 400) -- default
+}
+
+local Inicio = UI:Tab{
+   Name = "inicio"
+}
+
+local Divider = Main:Divider{
+   Name = "inicio shit"
+}
+
+local QuitDivider = Main:Divider{
+   Name = "Sair"
+}
+
+-- Script para Menu Avançado em Blox Fruits (Roblox Executor)
+
+local player = game.Players.LocalPlayer
+local runService = game:GetService("RunService")
+
+-- Função para teleportar o jogador para uma posição específica
+local function teleportTo(position)
+    player.Character.HumanoidRootPart.CFrame = CFrame.new(position)
+end
+
+-- Função para farmar frutas
+local function farmFruits(fruitName)
+    while true do
+        wait(1)  -- Aguarda 1 segundo entre os loops para não sobrecarregar o servidor
+        local targetFruit = player.Backpack:FindFirstChild(fruitName)
+        
+        if not targetFruit then
+            local npc = game.Workspace.NPCs:FindFirstChild("Marco the Phoenix")  -- Exemplo de NPC para farmar frutas
+            if npc then
+                local distance = (player.Character.HumanoidRootPart.Position - npc.HumanoidRootPart.Position).magnitude
+                if distance < 100 then
+                    fireclickdetector(npc.HumanoidRootPart.ClickDetector)  -- Clica no NPC para iniciar a batalha
+                    wait(1)  -- Aguarda 1 segundo para a batalha iniciar
+                    local targetFruit = player.Backpack:FindFirstChild(fruitName)
+                    if targetFruit then
+                        targetFruit.Parent = player.Character  -- Equipa a fruta
+                    end
+                else
+                    teleportTo(npc.HumanoidRootPart.Position)  -- Teleporta até o NPC
+                end
+            end
+        end
+    end
+end
+
+-- Função para farmar Beli
+local function farmBeli(amount)
+    while true do
+        wait(1)  -- Aguarda 1 segundo entre os loops para não sobrecarregar o servidor
+        player.leaderstats.Beli.Value = player.leaderstats.Beli.Value + amount
+    end
+end
+
+-- Função para farmar Bosses
+local function farmBosses(bossName)
+    while true do
+        wait(1)  -- Aguarda 1 segundo entre os loops para não sobrecarregar o servidor
+        local boss = game.Workspace.Bosses:FindFirstChild(bossName)
+        
+        if boss then
+            local distance = (player.Character.HumanoidRootPart.Position - boss.HumanoidRootPart.Position).magnitude
+            if distance < 100 then
+                fireclickdetector(boss.HumanoidRootPart.ClickDetector)  -- Clica no Boss para iniciar a batalha
+                wait(1)  -- Aguarda 1 segundo para a batalha iniciar
+                -- Lógica para derrotar o Boss e coletar recompensas
+            else
+                teleportTo(boss.HumanoidRootPart.Position)  -- Teleporta até o Boss
+            end
+        end
+    end
+end
+
+-- Função para auto-click
+local autoClickEnabled = false
+local autoClickInterval = 0.1  -- Intervalo em segundos entre os cliques
+
+local function toggleAutoClick()
+    autoClickEnabled = not autoClickEnabled
+    
+    if autoClickEnabled then
+        while autoClickEnabled do
+            wait(autoClickInterval)
+            -- Exemplo de como realizar um click
+            -- Implemente o código específico de acordo com o executor de scripts
+        end
+    end
+end
+
+-- Função para vida infinita
+local function toggleInfiniteHealth()
+    local humanoid = player.Character:WaitForChild("Humanoid")
+    humanoid.MaxHealth = math.huge
+    humanoid.Health = math.huge
+end
+
+-- Menu principal
+while true do
+    -- Mostra as opções ao jogador
+    print("Menu:")
+    print("1. Farm de Frutas")
+    print("2. Farm de Beli")
+    print("3. Farm de Boss")
+    print("4. Auto-Click (Exemplo)")
+    print("5. Teleport para NPC (Exemplo)")
+    print("6. Vida Infinita")
+    print("0. Sair")
+
+    -- Lê a escolha do jogador
+    local choice = tonumber(io.read())
+    
+    -- Executa a função selecionada
+    if choice == 1 then
+        farmFruits("Mera Mera no Mi")  -- Substitua com o nome da fruta que deseja farmar
+    elseif choice == 2 then
+        farmBeli(1000)  -- Substitua com a quantidade de Beli que deseja farmar por vez
+    elseif choice == 3 then
+        farmBosses("Magma Admiral")  -- Substitua com o nome do Boss que deseja farmar
+    elseif choice == 4 then
+        toggleAutoClick()
+    elseif choice == 5 then
+        teleportTo(Vector3.new(100, 50, -200))  -- Substitua com as coordenadas do NPC que deseja teleportar
+    elseif choice == 6 then
+        toggleInfiniteHealth()
+    elseif choice == 0 then
+        break  -- Sai do menu
+    else
+        print("Opção inválida. Escolha novamente.")
+    end
+end
