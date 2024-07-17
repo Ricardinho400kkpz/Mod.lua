@@ -1,6 +1,6 @@
 ---Abaixo estar a lib da nossa UI
 
-local Lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Ricardinho400kkpz/Mod.lua/main/source.lua/"))()
+local Lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Ricardinho400kkpz/Mod.lua/main/source.lua"))()
 
 local UI = Lib:Create{
     Theme = "Dark", -- or any other theme
